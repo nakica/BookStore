@@ -1,0 +1,78 @@
+﻿@model BookDetailsViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+@if(User.IsInRole("Administrator"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>Title</p>
+            </th>
+            <th>
+                <p>Author First Name</p>
+            </th>
+            <th>
+                <p>Author Last Name</p>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model.BookDetails)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.LastName)
+                </td>
+                <td>
+                    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                    <button onclick="Open(@item.Id)">Details</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title text-center">Details</h2>
+            </div>
+            <div class="modal-body" id="DetailsPartial">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function Open(currentBookId) {
+        $.ajax({
+            type: "Get",
+            url: '@Url.Action("DetailsPartial", "Books")',
+            data: { id: currentBookId },
+            success: function (data) {
+                $('#DetailsPartial').html(data);
+                $('#detailsModal').modal('show');
+            }
+        })
+    }
+</script>
