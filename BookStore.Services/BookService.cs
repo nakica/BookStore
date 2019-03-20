@@ -5,7 +5,7 @@
     using BookStore.Services.Contracts;
     using System.Collections.Generic;
 
-    public sealed class BookService : IBookService
+    public class BookService : IBookService
     {
         private readonly IBookRepository _bookRepository;
 

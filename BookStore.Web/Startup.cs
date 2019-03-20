@@ -14,26 +14,23 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
-    public sealed class Startup
+    public class Startup
     {
-        public Startup(IHostingEnvironment hostingEnvironment)
+        public Startup(IConfiguration configuration)
         {
-            _configurationRoot = new ConfigurationBuilder().SetBasePath(hostingEnvironment.ContentRootPath)
-                .AddJsonFile("appsettings.json")
-                .Build();
+            _configuration = configuration;
         }
 
-        public IConfigurationRoot _configurationRoot;
+        private IConfiguration _configuration;
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
 
             services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -51,12 +48,11 @@
 
 
             services.AddDbContext<BookStoreContext>(options =>
-                options.UseSqlServer(_configurationRoot.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, BookStoreContext context,
             UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -66,9 +62,10 @@
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("BookStore/Error");
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

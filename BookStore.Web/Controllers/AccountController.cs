@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
 
-    public sealed class AccountController : Controller
+    public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;

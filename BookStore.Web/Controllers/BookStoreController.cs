@@ -2,9 +2,10 @@
 {
     using Microsoft.AspNetCore.Mvc;
 
-    public sealed class BookStoreController : Controller
+    public class BookStoreController : Controller
     {
         public IActionResult Index() => View();
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

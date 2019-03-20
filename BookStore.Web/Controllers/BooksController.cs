@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
-    public sealed class BooksController : Controller
+    public class BooksController : Controller
     {
         private readonly IBookService _bookService;
 

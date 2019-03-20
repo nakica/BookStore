@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    public sealed class BookStoreContext : IdentityDbContext<IdentityUser, IdentityRole, string>
+    public class BookStoreContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
         public BookStoreContext(DbContextOptions<BookStoreContext> options) : base(options)
         {

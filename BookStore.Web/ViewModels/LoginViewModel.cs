@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public sealed class LoginViewModel
+    public class LoginViewModel
     {
         [Required]
         public string Email { get; set; }
